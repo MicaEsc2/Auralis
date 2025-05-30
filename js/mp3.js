@@ -36,11 +36,13 @@ const listaGuardada = localStorage.getItem('listaS');
 if (listaGuardada) {
     try {
         listaS = JSON.parse(listaGuardada);
+        listaS = listaS.filter(song => song && typeof song.file === 'string');
+
     } catch (e) {
         console.error("Error al parsear listaS:", e);
         listaS = [];
     }
-}else {
+}if (!listaS || listaS.length === 0) {
     listaS = listaPorDefecto;
 }
 
@@ -84,11 +86,19 @@ function setEchoEnabled(enabled) {
 let gain = audioContext.createGain();
 
 function loadData(i) {
+    if (!listaS || listaS.length === 0) {
+        console.error("Lista de canciones vacía o no definida");
+        return;
+    }
     if (i >= listaS.length) i = 0;
     if (i < 0) i = listaS.length - 1;
     index = i;
 
     let song = listaS[index];
+    if (!song || !song.file) {
+        console.error("Canción inválida o sin archivo en la lista en índice", index);
+        return;
+    }
     audioElement.src = song.file;  
     audioElement.pause();
     audioElement.currentTime = 0;
@@ -132,8 +142,8 @@ function loadData(i) {
     }
 
    
-    let nombreArchivo = song.file.split('/').pop().replace('.mp3', '');
-    let partes = nombreArchivo.split(' - ');
+    let nombreArchivo = song.file ? song.file.split('/').pop().replace('.mp3', '') : 'Archivo desconocido';
+let partes = nombreArchivo.split(' - ');
     let titulo = partes.length > 1 ? partes[0] : nombreArchivo;
     let artista = partes.length > 1 ? partes[1] : "Desconocido";
 
@@ -646,11 +656,13 @@ document.getElementById('audioUpload').addEventListener('change', function (e) {
         if (!file.name.endsWith('.mp3')) return;
 
         const nombre = file.name;
-        const ruta = `./media/${nombre}`;
+        const ruta = URL.createObjectURL(file);
         listaS.push({
+            titulo: nombre, 
             file: ruta,
             image: "default.png"
         });
+        console.log('Procesando canción:', song);
     });
 
    

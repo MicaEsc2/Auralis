@@ -25,9 +25,9 @@ const canvas = document.getElementById("visualizer");
 const ctx = canvas.getContext("2d");
 // Lista por defecto con 3 canciones de la carpeta media
 const listaPorDefecto = [
-  { titulo: "Chandelier", archivo: "media/Chandelier - Sia.mp3" },
-  { titulo: "Wonderwall", archivo: "media/Wonderwall - Oasis.mp3" },
-  { titulo: "Jazz", archivo: "media/jazz.mp3" }
+  { titulo: "Chandelier", file: "media/Chandelier - Sia.mp3" },
+  { titulo: "Wonderwall", file: "media/Wonderwall - Oasis.mp3" },
+  { titulo: "Jazz", file: "media/jazz.mp3" }
 ];
 
 

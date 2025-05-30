@@ -23,6 +23,13 @@ let listaS = [];
 
 const canvas = document.getElementById("visualizer");
 const ctx = canvas.getContext("2d");
+// Lista por defecto con 3 canciones de la carpeta media
+const listaPorDefecto = [
+  { titulo: "Chandelier", archivo: "media/Chandelier - Sia.mp3" },
+  { titulo: "Wonderwall", archivo: "media/Wonderwall - Oasis.mp3" },
+  { titulo: "Jazz", archivo: "media/jazz.mp3" }
+];
+
 
 //cargar desde localStorage
 const listaGuardada = localStorage.getItem('listaS');
@@ -33,6 +40,8 @@ if (listaGuardada) {
         console.error("Error al parsear listaS:", e);
         listaS = [];
     }
+}else {
+    listaS = listaPorDefecto;
 }
 
 // Contexto y conexión del Audio

@@ -1,0 +1,237 @@
+/* MP3 Menu */
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  box-sizing: border-box;
+}
+
+.mp3-container {
+  width: 100%;
+  background: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.music-player-menu {
+  bottom: 0;
+  position: fixed;
+  background: #1a0620;
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+}
+.music-player-menu button {
+  background: #563859;
+  color: #ffffff;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 3px 8px;
+}
+nav {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-right: 10px;
+}
+nav div{
+  display: flex;
+  flex-direction: row;
+  font-size: 20px;
+  color: #eae6d9;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+nav div i{
+  margin: 0 2px;
+  font-size: 14px;
+  color: #eae6d9;
+}
+#volumeSlider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 4px;
+  background: #dc24d54e;
+  background-image: linear-gradient(#7f108b, #7f108b);
+  background-repeat: no-repeat;
+  background-size: 0% 100%;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 30px 0;
+}
+
+#volumeSlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  background: #511457;
+  border-radius: 50%;
+  border: 1px solid #eae6d9;
+  box-shadow: 0 4px 6px rgba(186, 18, 237, 0.22);
+}
+#volLabel {
+  font-size: 12px;
+  color: #eae6d9;
+  margin: 5px;
+}	
+
+.controls-menu div {
+  width: 50px;
+  margin: 8px;
+  background: #eae6d9;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 20px;
+  color: #563859;
+  box-shadow: 0 2px 6px rgba(186, 18, 237, 0.22);
+  cursor: pointer;
+}
+.controls-menu div:first-child, .controls-menu div:last-child {
+  background: none;
+  color: #eae6d9 ;
+  box-shadow: none;
+}
+.song-bar {
+  width: 950px;
+  height: 90px;
+  display: flex;
+  margin: 0 10px;
+  border-radius: 10px;
+  background: #ffffff2c;
+  box-shadow: 0 10px 60px rgba(255, 26, 26, 0.185);
+}
+
+.song-img-menu {
+  width: 90px;
+  border-radius: 10px;
+}
+
+.progress-bar-menu,
+.progress-bar-info,
+.song-info {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+}
+
+.song-info #songTitle {
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #ccc;
+}
+
+.song-info #songArtist,
+.progress-bar-info p {
+  font-size: 10.5px;
+  color: #a3a3a3;
+  margin-top: 2px;
+}
+
+.progress-bar-info {
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 10px;
+}
+
+.progress-bar-info p {
+  font-size: 11px;
+  color: #a4a4a4;
+  margin: 0 4px;
+}
+
+#progress {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 5px;
+  background: #dc24d54e;
+  background-image: linear-gradient(#7f108b, #7f108b);
+  background-repeat: no-repeat;
+  background-size: 0% 100%;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 20px 0;
+}
+
+#progress::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  background: #511457;
+  border-radius: 50%;
+  border: 2px solid #eae6d9;
+  box-shadow: 0 4px 6px rgba(186, 18, 237, 0.22);
+}
+
+.controls-menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.controls-menu div {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  margin: 0px 6px;
+}
+
+.controls-menu div:nth-child(3) {
+  transform: scale(1.5);
+  background: #511457;
+  color: #eae6d9;
+}
+
+#loop.active, #shuffle.active {
+  color: rgb(195, 253, 183);
+}
+
+#song {
+  display: none;
+}
+
+nav button:hover,
+.controls-menu div:hover {
+  background: #c4bdb1; 
+  box-shadow: 0 4px 10px rgba(186, 18, 237, 0.3);
+  transition: all 0.2s ease-in-out;
+}
+.controls-menu div:first-child:hover, .controls-menu div:last-child:hover{
+  background: none; 
+  color: #c4bdb1;
+  box-shadow: none;
+  transition: all 0.2s ease-in-out; 
+}
+
+.controls-menu div:nth-child(3):hover {
+  background: #3d0f41; 
+  color: #c4bdb1;
+}
+#progress:hover {
+  background: #e441e84e; 
+  background-image: linear-gradient(#a519af, #a519af);
+}
+
+#progress:hover::-webkit-slider-thumb {
+  background: #7f108b; 
+  transform: scale(1.2);
+  box-shadow: 0 0 8px rgba(186, 18, 237, 0.35);
+  transition: all 0.2s ease;
+}
+

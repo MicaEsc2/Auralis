@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&display=swap" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/bccef3b200.js" crossorigin="anonymous"></script>
+  <link rel="icon" type="image/x-icon" href="./media/">
+  <link rel="stylesheet" href="./css/mp3.css">
+  <link rel="stylesheet" href="./css/biblio.css">
+  <title>Biblioteca - Auralis</title>
+</head>
+
+<body>
+  <header class="header">
+  <a href="index.html">
+  <div id="web-name" style="cursor: pointer;">
+    <img src="./media/logo-auralis-blanco.png" alt="Logo Auralis" class="logo">
+    <h1>Auralis</h1>
+  </div>
+</a>
+
+  <nav class="nav-buttons">
+    <button onclick="location.href='Biblio.html'">Biblioteca & Filtros</button>
+    <button onclick="location.href='grabadora.html'">Grabadora</button>
+  </nav>
+</header>
+
+
+  <div class="main-content">
+    <h2>Biblioteca</h2>
+
+    <div class="main-content-body">
+      <div id="songList">
+        <table id="song-biblio">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Título</th>
+              <th>Autor</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+         
+          </tbody>
+        </table>
+      </div>
+
+      <div class="file-loader">
+        <label>Subir canción: <input type="file" id="audioUpload" accept="audio/*"></label><br><br>
+      </div>
+
+    </div>
+
+
+    <!-- Filtros -->
+
+    <h2>Filtros</h2>
+
+    <div class="main-content-body">
+
+      <br>
+      <p>Los filtros de audio permiten modificar el sonido de las canciones en tiempo real.</p>
+      <canvas id="visualizer"></canvas>
+      <p>Utiliza los controles deslizantes para ajustar los filtros de audio en tiempo real.</p>
+
+      <div class="filters">
+        <div class="filter-column">
+          <div>
+            <div class="title-filter">
+              Realce de frecuencias bajas
+              <i class="fa-solid fa-circle-info info-icon" onclick="showInfoPopup('lowpassInfo')"></i>
+            </div>
+            <label>
+              <input type="range" id="lowpassSlider" min="100" max="10000" value="10000">
+              <span id="lowpassLabel">1000 Hz</span>
+            </label>
+          </div>
+          <div>
+            <div class="title-filter">
+             <label> Mix
+              <i class="fa-solid fa-circle-info info-icon" onclick="showInfoPopup('lowpassMixInfo')"></i>
+            
+            
+              <input type="range" id="lowpassMixSlider" min="0" max="1" step="0.01" value="0">
+            </label>
+            </div>
+          </div>
+
+          
+          <div>
+            <div class="title-filter">
+              Echo
+              <i class="fa-solid fa-circle-info info-icon" onclick="showInfoPopup('echoInfo')"></i>
+            </div>
+            <label>
+              <input type="range" id="echoSlider" min="0" max="1" step="0.01" value="0">
+              <span id="echoLabel">0</span>
+            </label>
+          </div>
+          <div>
+            <label>
+              <input type="checkbox" id="toggleEchoCheckbox"> Activar Eco
+            </label>
+          </div>
+          <div>
+            <div class="title-filter">
+              Wah-Wah:
+              <i class="fa-solid fa-circle-info info-icon" onclick="showInfoPopup('wahwahInfo')"></i>
+            </div>
+            <label>
+              <input id="wahwahSlider"    type="range" min="0" max="10" step="0.1" value="0">
+              <span id="wahwahLabel">0.00 Hz</span>
+            </label>
+            
+            <label for="wahMinFreqSlider">
+              Freq. mínima:
+              <i class="fa-solid fa-circle-info info-icon" onclick="showInfoPopup('minFreqInfo')"></i>
+              <input id="wahMinFreqSlider" type="range" min="300" max="1000" step="1" value="500">
+              <span id="wahMinFreqLabel">500Hz</span>
+               
+            </label>
+            <label for="wahMaxFreqSlider">
+              Freq. máxima:
+               <i class="fa-solid fa-circle-info info-icon" onclick="showInfoPopup('maxFreqInfo')"></i>
+              <input id="wahMaxFreqSlider" type="range" min="1000" max="5000" step="1" value="3000">
+              <span id="wahMaxFreqLabel">3000Hz</span>
+             
+            </label>
+            <label for="wahMix">
+              Mix:
+              <input type="range" id="wahMix" min="0" max="1" step="0.01" value="0">
+              <span id="wahMixLabel">0%</span>
+            </label>
+            
+          </div>
+        </div>
+
+        <div class="filter-column">
+          <div>
+            <div class="title-filter">
+              Realce de frecuencias altas
+              <i class="fa-solid fa-circle-info info-icon" onclick="showInfoPopup('highpassInfo')"></i>
+            </div>
+            <label>
+              <input type="range" id="highpassSlider" min="20" max="5000" value="20">
+              <span id="highpassLabel">500 Hz</span>
+            </label>
+          </div>
+          <div>
+            <label>Mix
+              <i class="fa-solid fa-circle-info info-icon" onclick="showInfoPopup('highpassMixInfo')"></i>
+              <input type="range" id="highpassMixSlider" min="0" max="1" step="0.01" value="0">
+            </label>
+          </div>
+          
+          <div>
+            <div class="title-filter">
+              Distorsión
+              <i class="fa-solid fa-circle-info info-icon" onclick="showInfoPopup('distortionInfo')"></i>
+           </div>
+              <label for="distortionAmount">Distortion Amount:
+                <input type="range" id="distortionAmount" min="0" max="20" step="0.1" value="0">
+                <span id="distortionAmountLabel">1.0</span>
+              </label>
+              <label for="distortionMix">Distortion Mix:
+                <input type="range" id="distortionMix" min="0" max="1" step="0.01" value="0">
+                <span id="distortionMixLabel">100%</span>
+              </label>
+          <div>
+            <label>Feedback Echo: <input type="range" id="echoFeedbackSlider" min="0" max="1" step="0.01"
+                value="0"><span id="echoFeedbackLabel">0.4</span></label>
+          </div>
+          <div>
+            <div>
+              <div class="title-filter">
+                Flanger
+                <i class="fa-solid fa-circle-info info-icon" onclick="showInfoPopup('flangerInfo')"></i>
+              </div>
+              <label>
+                <input type="range" id="flangerDepthSlider" min="0" max="50" step="1" value="0">
+                <span id="flangerDepthLabel">OFF</span>
+              </label>
+              <label for="flangerMix">
+                Mix:
+                <input type="range" id="flangerMix" min="0" max="1" step="0.01" value="0">
+                <span id="flangerMixLabel">0%</span>
+              </label>
+            </div>
+            <div>
+              <div class="title-filter">
+                Robot
+                <i class="fa-solid fa-circle-info info-icon" onclick="showInfoPopup('robotInfo')"></i>
+              </div>
+              <label>
+                <input type="range" id="robotFreqSlider" min="0" max="60" value="0"><span id="robotFreqLabel">0</span>
+              </label>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!--popup -->
+
+  <div id="infoPopup" class="info-popup">
+    <div class="info-popup-content">
+      <span class="close-btn" onclick="closeInfoPopup()">&times;</span>
+      <h3 id="popupTitle">Información</h3>
+      <div id="popupContent"></div>
+    </div>
+  </div>
+
+  
+  <div id="filtrosInfo" style="display: none;">
+  
+    <div id="lowpassInfo" data-title="Realce de frecuencias bajas">
+      <p>
+        Este filtro personalizado aplica un efecto de <strong>realce de frecuencias bajas</strong>, utilizando un
+        filtrado suave de la señal original. En lugar de eliminar frecuencias altas, extrae la parte más lenta y
+        continua del sonido (graves) y permite mezclarla con la señal original.
+      </p>
+
+      <p><strong>Este filtro realiza tres pasos principales:</strong></p>
+      <ol>
+        <li>
+          Calcula una versión suavizada de la señal (<code>lastLowpassOutput</code>) usando un filtro pasa bajos simple
+          de primer orden con retroalimentación.
+        </li>
+        <li>
+          Esta salida suavizada representa la <strong>componente de frecuencias bajas</strong> de la señal original.
+        </li>
+        <li>
+          Combina la señal original con la señal suavizada mediante una mezcla controlada por <strong>Mix</strong>.
+        </li>
+      </ol>
+
+      <p>
+        El resultado es una señal más cálida y redondeada, ideal para reforzar graves o suavizar sonidos agresivos sin
+        eliminar detalle.
+      </p>
+
+      <p><strong>Variaciones rápidas y lentas en la señal:</strong></p>
+      <p>
+        Las señales son el resultado de variaciones tanto rápidas como lentas en el tiempo:
+      </p>
+      <ul>
+        <li><strong>Variaciones rápidas:</strong> Corresponden a frecuencias altas, como las consonantes, o el ataque de
+          los instrumentos.</li>
+        <li><strong>Variaciones lentas:</strong> Corresponden a frecuencias bajas, el cuerpo de una voz o instrumento.
+        </li>
+      </ul>
+    </div>
+
+    <div id="lowpassMixInfo" data-title="Control de mezcla (Mix)">
+      <p>
+        <strong>Mix</strong> es un <em>control de mezcla</em> (<code>blend</code> o <code>dry/wet</code>) que determina
+        en qué proporción se combina la señal original sin filtrar (<strong>"dry"</strong>) con la componente de altas
+        frecuencias extraída (<strong>"wet"</strong>) por el filtro.
+      </p>
+
+      <ul>
+        <li><code>Mix = 0</code>: el resultado es solo la señal original, sin ningún realce.<br>
+          <code>→ output[i] = input[i]</code>
+        </li>
+        <li><code>Mix = 1</code>: el resultado es solo la componente de altas frecuencias extraída.<br>
+          <code>→ output[i] = filtrado</code>
+        </li>
+        <li><code>0 &lt; Mix &lt; 1</code>: la salida es una mezcla ponderada entre ambas señales.
+          <ul>
+            <li><code>Mix = 0.25</code>: predomina la señal original con un toque sutil de realce agudo.</li>
+            <li><code>Mix = 0.5</code>: mezcla equilibrada (50/50) entre la señal original y las altas frecuencias.</li>
+            <li><code>Mix = 0.75</code>: predominan las altas frecuencias en la salida final.</li>
+          </ul>
+        </li>
+      </ul>
+
+      <p>
+        Este control permite ajustar con precisión cuánto énfasis se quiere dar a las frecuencias agudas sin perder la
+        naturalidad de la señal original.
+      </p>
+    </div>
+
+    <div id="highpassMixInfo" data-title="Control de mezcla (Mix)">
+      <p>
+        <strong>Mix</strong> es un <em>control de mezcla</em> (<code>blend</code> o <code>dry/wet</code>) que determina
+        en qué proporción se combina la señal original sin filtrar (<strong>"dry"</strong>) con la componente de altas
+        frecuencias extraída (<strong>"wet"</strong>) por el filtro.
+      </p>
+
+      <ul>
+        <li><code>Mix = 0</code>: el resultado es solo la señal original, sin ningún realce.<br>
+          <code>→ output[i] = input[i]</code>
+        </li>
+        <li><code>Mix = 1</code>: el resultado es solo la componente de altas frecuencias extraída.<br>
+          <code>→ output[i] = filtrado</code>
+        </li>
+        <li><code>0 &lt; Mix &lt; 1</code>: la salida es una mezcla ponderada entre ambas señales.
+          <ul>
+            <li><code>Mix = 0.25</code>: predomina la señal original con un toque sutil de realce agudo.</li>
+            <li><code>Mix = 0.5</code>: mezcla equilibrada (50/50) entre la señal original y las altas frecuencias.</li>
+            <li><code>Mix = 0.75</code>: predominan las altas frecuencias en la salida final.</li>
+          </ul>
+        </li>
+      </ul>
+
+      <p>
+        Este control permite ajustar con precisión cuánto énfasis se quiere dar a las frecuencias agudas sin perder la
+        naturalidad de la señal original.
+      </p>
+    </div>
+
+    <div id="highpassInfo" data-title="Realce de frecuencias altas">
+      <p>
+        Este filtro personalizado aplica un efecto de <strong>realce de frecuencias altas</strong> utilizando una
+        técnica sencilla pero efectiva: se suaviza la señal original y luego se resta esa versión suavizada para aislar
+        los cambios rápidos, que corresponden a las altas frecuencias.
+      </p>
+
+      <p>
+        A diferencia de un filtro paso alto tradicional que elimina directamente las frecuencias graves, este enfoque
+        <strong>no corta</strong>, sino que <strong>enfatiza</strong> el contenido agudo de forma progresiva y natural.
+      </p>
+
+      <p><strong>Este filtro realiza tres pasos principales:</strong></p>
+      <ol>
+        <li>
+          Calcula una señal suavizada (<code>low</code>), que actúa como un filtro paso bajo simple de primer orden
+          utilizando retroalimentación.
+        </li>
+        <li>
+          Obtiene la diferencia entre la señal original y la suavizada:
+          <br><code>highpass = input[i] - low</code><br>
+          Esto da una estimación de las altas frecuencias relativas.
+        </li>
+        <li>
+          Combina la señal original con la señal realzada de altas frecuencias mediante una mezcla lineal controlada por
+          <strong>Mix</strong>.
+        </li>
+      </ol>
+
+      <p>
+        El resultado es un efecto suave que resalta transitorios, detalles agudos y brillo, sin perder la naturalidad de
+        la señal original.
+      </p>
+    </div>
+
+    
+  <div id="wahwahInfo" data-title="Efecto Wah-Wah">
+  <h4>¿Qué hace este filtro?</h4>
+  <p>
+    El Wah-Wah desplaza rítmicamente una banda estrecha de frecuencias sobre la señal,
+    generando el característico “wah” que va de notas graves a agudas y vuelve de forma cíclica.
+  </p>
+
+  <h4>Objetivo</h4>
+  <p>
+    Resaltar dinámicamente un rango de frecuencias concreto para añadir expresividad,
+    simulando la variación de resonancia de un altavoz con un barrido tonal.
+  </p>
+
+ 
+<div style="border: 2px solid #888; padding: 10px; border-radius: 4px; margin: 1em 0;">
+   <h4>Controles en la interfaz</h4>
+   <ul>
+    <li><strong>Barrido (rate) [0–10 Hz]:</strong> Define la velocidad del efecto. <em>0.1–1 Hz para barrido lento y sutil; 2–5 Hz para efecto rápido y marcado.</em></li>
+    <li><strong>Frecuencia mínima (minFreq) [300–1000 Hz]:</strong> Punto de inicio del barrido. <em>Valores bajos enfatizan las frecuencias graves.</em></li>
+    <li><strong>Frecuencia máxima (maxFreq) [1000–5000 Hz]:</strong> Punto final del barrido. <em>Valores altos enfatizan las frecuencias agudas.</em></li>
+    <li><strong>Mix [0–100%]:</strong> Ajusta cuánto del sonido procesado escuchas. <em>Bajo para un efecto sutil; alto para un wah dominante.</em></li>
+  </ul>
+</div>
+
+  <h4>Componentes clave y su propósito</h4>
+  <ul>
+    <li><strong>minFreq</strong> (Frecuencia mínima): Límite inferior del barrido. <em>Determina dónde empieza el barrido.</em></li>
+    <li><strong>maxFreq</strong> (Frecuencia máxima): Límite superior del barrido. <em>Determina dónde acaba el barrido.</em></li>
+    <li><strong>rate</strong> (Velocidad de barrido): Velocidad del LFO en Hz. <em>Controla cuán rápido oscila la banda entre minFreq y maxFreq.</em></li>
+    <li><strong>Q</strong> (Factor de calidad): Anchura de la banda de paso. <em>Q alto = banda estrecha, Q bajo = banda ancha.</em></li>
+    <li><strong>mix</strong> (Mezcla dry/wet): Proporción entre señal original y señal filtrada. <em>0% = sólo original; 100% = sólo filtrado.</em></li>
+  </ul>
+
+  <h4>Conceptos básicos</h4>
+  <ul>
+    <li><code>input[i]</code>: muestra original de audio en el índice <em>i</em>.</li>
+    <li><code>output[i]</code>: muestra procesada tras aplicar el filtro.</li>
+    <li><code>sampleRate</code>: número de muestras por segundo, p.ej. 48000 Hz.</li>
+    <li><code>lfoPhase</code>: fase interna del oscilador de baja frecuencia.</li>
+    <li><code>w0, α</code>: coeficientes calculados para el filtro biquad.</li>
+  </ul>
+
+<h4>¿Cómo funciona paso a paso?</h4>
+<ol>
+  <li>
+    <strong>Generación de LFO:</strong>
+    <code>lfo = 0.5 * (1 + sin(lfoPhase))</code><br>
+    <em>Explicación:</em> El LFO (Low Frequency Oscillator) crea un valor que oscila suavemente entre 0 y 1. Se usa una función seno que depende de <code>lfoPhase</code>, garantizando transiciones suaves. Este valor decide la posición de la banda en cada instante.
+  </li>
+  <li>
+    <strong>Cálculo de Fc (frecuencia central):</strong>
+    <code>Fc = minFreq + lfo * (maxFreq - minFreq)</code><br>
+    <em>Explicación:</em> Se interpola linealmente entre <code>minFreq</code> y <code>maxFreq</code> según el valor del LFO. Cuando LFO = 0, Fc = minFreq; cuando LFO = 1, Fc = maxFreq. Así la frecuencia central barre el rango definido.
+  </li>
+  <li>
+    <strong>Cálculo de coeficientes biquad:</strong><br>
+    <code>alpha = sin(w0)/(2 * Q)</code>, donde <code>w0 = 2π * Fc / sampleRate</code>.<br>
+    <em>Explicación:</em> A partir de la frecuencia central (Fc) se calcula la frecuencia angular normalizada (<code>w0</code>) y el coeficiente <code>alpha</code>, que controla la resonancia del filtro. Un <code>alpha</code> más alto genera una mayor resonancia en Fc.
+  </li>
+  <li>
+    <strong>Filtrado band-pass:</strong><br>
+    <code>y = (b0/a0) * x + (b1/a0) * z1 + (b2/a0) * z2
+      - (a1/a0) * y1 - (a2/a0) * y2</code><br>
+    <em>Explicación:</em> Esta ecuación aplica el filtro biquad. <code>x</code> es la muestra de entrada, y <code>z1,z2</code> y <code>y1,y2</code> almacenan muestras previas, permitiendo al filtro tener respuesta de resonancia. El resultado <code>y</code> es la componente de la señal en la banda central.
+  </li>
+  <li>
+    <strong>Mezcla dry/wet:</strong><br>
+    <code>output = x * (1 - mix) + y * mix</code><br>
+    <em>Explicación:</em> Combina la señal original (<em>dry</em>) y la señal filtrada (<em>wet</em>) según el parámetro <code>mix</code>. Si <code>mix</code> = 0.5, se escuchan partes iguales de ambas.
+  </li>
+  <li>
+    <strong>Actualización de retardos y fase:</strong><br>
+    <code>z2 = z1; z1 = x; y2 = y1; y1 = y;</code><br>
+    <code>lfoPhase += 2 * Math.PI * (rate / sampleRate); if (lfoPhase > 2 * Math.PI) lfoPhase -= 2 * Math.PI;</code><br>
+    <em>Explicación:</em> Se almacenan las muestras actuales en los retardos para el siguiente cálculo del filtro. Luego se avanza la fase del LFO según la velocidad <code>rate</code>; al sobrepasar <code>2π</code> se reinicia para repetir el ciclo.
+  </li>
+</ol>
+
+
+  <h4>Variaciones y consejos</h4>
+  <ul>
+    <li><strong>Barrido lento:</strong> rate en 0.1–1 Hz para efectos atmosféricos.</li>
+    <li><strong>Barrido rápido:</strong> rate en 2–5 Hz para solos expresivos.</li>
+    <li><strong>Resonancia intensa:</strong> Q alto (10–20) para pico pronunciado.</li>
+    <li><strong>Uso típico:</strong> guitarras eléctricas, voces dramáticas, sintetizadores.</li>
+  </ul>
+
+  <p>
+    Con estos controles completos, podrás diseñar un Wah-Wah a medida: desde barridos lentos y suaves
+    hasta rápidas exploraciones tonales, ajustando rango y mezcla según tus necesidades.
+  </p>
+
+</div>
+
+<div id="minFreqInfo" data-title="Frecuencia mínima">
+    <h4>¿En qué influye?</h4>
+    La <strong>frecuencia mínima</strong> indica la frecuencia más grave desde la cual el filtro comienza
+    a moverse. Es el valor inicial antes de que el LFO (oscilador de baja frecuencia) haga recorrer
+    el filtro hacia frecuencias más altas. Piensa en ello como la “base” o tono más bajo que el
+    efecto podrá reproducir al iniciar el barrido.
+  </p>
+  <h4>Ejemplo de uso</h4>
+  <ul>
+    <li>200 Hz: barrido inicia en un tono muy grave, ideal para sonidos cálidos y profundos.</li>
+    <li>500 Hz: punto de partida medio, equilibrado entre graves y agudos.</li>
+    <li>800 Hz: inicia en una zona más aguda, útil para dar brillo desde el primer instante.</li>
+  </ul>
+</div>
+<div id="maxFreqInfo" data-title="Frecuencia máxima">
+   <h4>¿En qué influye?</h4>
+  <p>
+    La <strong>frecuencia máxima</strong> indica la frecuencia más aguda hasta la cual el filtro llega
+    durante el barrido. Es el valor final antes de que el LFO invierta la dirección o reinicie
+    el recorrido, definiendo el “tope” de agudos que el efecto puede alcanzar.
+  </p>
+  <h4>Ejemplo de uso</h4>
+  <ul>
+    <li>1500 Hz: barrido culmina en una zona media-alta, ideal para un sonido claro sin ser demasiado brillante.</li>
+    <li>2500 Hz: permite alcanzar tonos agudos más nítidos, perfecto para solos destacados.</li>
+    <li>4000 Hz: tope muy agudo, aporta brillo extremo y presencia en frecuencias altas.</li>
+  </ul>
+</div>
+    <div id="echoInfo" data-title="Efecto Echo">
+      <p>
+        Implementado con la API <strong>Web Audio</strong>, el efecto <strong>Echo</strong> consiste en la repetición
+        retardada de la señal original,
+        simulando reflejos sonoros en un espacio.
+      </p>
+      <p>
+        Para lograrlo, se usa un <em>DelayNode</em> que retrasa la señal un tiempo definido, y un <em>GainNode</em> que
+        controla la intensidad de la repetición.
+        Además, mediante una retroalimentación interna, la señal se repite varias veces, atenuándose progresivamente,
+        creando un efecto natural y envolvente.
+      </p>
+      <p>
+        El control del tiempo de retardo y la cantidad de eco permite ajustar desde un ambiente sutil hasta un eco muy
+        pronunciado, todo en tiempo real y con gran eficiencia gracias a la Web Audio API.
+      </p>
+    </div>
+
+
+    <div id="robotInfo" data-title="Efecto Robot">
+       <h4>¿Qué hace este filtro?</h4>
+  <p>
+    El Robot aplica una modulación de amplitud a la señal de audio usando una onda sinusoidal interna,
+    creando un timbre mecánico y repetitivo característico de voces o instrumentos robóticos.
+  </p>
+
+  <h4>Objetivo</h4>
+  <p>
+    Transformar la señal original en un sonido artificial, con fluctuaciones rítmicas en volumen
+    que emulan un “voz de robot” o efecto de síntesis de amplitud.
+  </p>
+
+  <div style="border: 2px solid #888; padding: 10px; border-radius: 4px; margin: 1em 0;">
+   <h4>Controles en la interfaz</h4>
+   <ul>
+      <li><strong>Frecuencia (frequency) [0–60 Hz]:</strong> Ajusta la velocidad de la modulación.
+        <em>2–10 Hz para un efecto de voz robótica lenta; 20–40 Hz para un tono más sintético y vibrante.</em></li>
+    </ul>
+  </div>
+
+  <h4>Componentes clave y su propósito</h4>
+  <ul>
+    <li><strong>frequency</strong> (Frecuencia de modulación): Controla la velocidad en Hz de la onda sinusoidal.
+      <em>Valores bajos (1–5 Hz) producen modulaciones lentas y guturales; valores altos (20–60 Hz) generan un timbre más vibratorio.</em></li>
+    <li><strong>phase</strong>: Fase actual de la onda, define el punto dentro del ciclo sinusoidal.
+    <li><strong>mod</strong>: Valor calculado por <code>Math.sin(phase)</code>, oscila entre -1 y 1.</li>
+  </ul>
+
+  <h4>Conceptos básicos</h4>
+  <ul>
+    <li><code>input[i]</code>: muestra original de audio en el índice <em>i</em>.</li>
+    <li><code>output[i]</code>: muestra resultante tras aplicar la modulación.</li>
+    <li><code>sampleRate</code>: número de muestras por segundo, p.ej. 48000 Hz.</li>
+    <li><code>Math.sin(phase)</code>: genera la onda sinusoidal usada como modulador.</li>
+  </ul>
+
+  <h4>¿Cómo funciona paso a paso?</h4>
+  <ol>
+    <li>
+      <strong>Generación de onda modular:</strong><br>
+      <code>mod = Math.sin(phase)</code><br>
+      <em>Explicación:</em> La onda sinusoidal oscila entre -1 y 1, produciendo variaciones periódicas.</li>
+    <li>
+      <strong>Aplicación de modulación:</strong><br>
+      <code>output = input * mod</code><br>
+      <em>Explicación:</em> Multiplica la señal original por la onda, atenuando o amplificando según el signo de <code>mod</code>.</li>
+    <li>
+      <strong>Ajuste de nivel:</strong><br>
+      <em>Opcionalmente</em>, escala y desplaza la señal para evitar inversión de fase o para mantener niveles adecuados.</li>
+    <li>
+      <strong>Avance de fase:</strong><br>
+      <code>phase += 2 * Math.PI * frequency / sampleRate;</code><br>
+      <code>if (phase > 2*Math.PI) phase -= 2*Math.PI;</code><br>
+      <em>Explicación:</em> Incrementa la fase para el siguiente ciclo, manteniendo la oscilación continua.</li>
+  </ol>
+
+  <h4>Variaciones y consejos</h4>
+  <ul>
+    <li><em>Modulación lenta:</em> ideal para efectos de voz robótica pausada o dramatismo.</li>
+    <li><em>Modulación rápida:</em> crea texturas metálicas y sintéticas, útil en electrónica.</li>
+    <li><em>Combinar con filtros:</em> usa lowpass o highpass antes de robot para definir el rango tonal modulado.</li>
+  </ul>
+</div>
+
+<div id="flangerInfo" data-title="Efecto Flanger">
+  <h4>¿Qué hace este filtro?</h4>
+  <p>
+    El Flanger crea un efecto de barrido metálico al mezclar la señal original con
+    una copia retardada cuyo tiempo de retardo varía periódicamente, produciendo
+    nódulos y ondulaciones en el sonido.
+  </p>
+
+  <h4>Objetivo</h4>
+  <p>
+    Generar modulaciones de fase y retardos variables para conseguir un efecto de
+    'jet sweep', aportando textura y movimiento al audio.
+  </p>
+
+  <div style="border: 2px solid #888; padding: 10px; border-radius: 4px; margin: 1em 0;">
+   <h4>Controles en la interfaz</h4>
+    <ul>
+      <li><strong>Profundidad (depth) [0–50 ms]:</strong> Ajusta cuánto varía el retardo máximo.</li>
+      <li><strong>Velocidad (rate) [0–10 Hz]:</strong> Ajusta la rapidez del barrido. <em>0.1–1 Hz para barridos suaves; 2–5 Hz para barridos rápidos.</em></li>
+      <li><strong>Mix [0–100%]:</strong> Ajusta la cantidad de señal retardada que escuchas.</li>
+    </ul>
+  </div>
+
+  <h4>Componentes clave y su propósito</h4>
+  <ul>
+    <li><strong>depth</strong> (Profundidad del retardo): Amplitud en milisegundos del tiempo de retardo.
+      <em>A mayor depth, más marcada será la variación del retraso.</em></li>
+    <li><strong>rate</strong> (Velocidad del LFO): Velocidad en Hz a la que varía el retardo.
+      <em>Controla la rapidez del barrido; bajo para efectos suaves, alto para barridos rápidos.</em></li>
+    <li><strong>mix</strong> (Mezcla dry/wet): Porcentaje de señal retardada frente a la original.
+      <em>0% = solo señal original; 100% = solo señal retardada.</em></li>
+    <li><strong>lfoPhase</strong>: Fase interna del oscilador de baja frecuencia usada para calcular
+      el retardo variable.</li>
+    <li><strong>buffer</strong>: Memoria circular que almacena muestras para poder leerlas con retardo.</li>
+  </ul>
+
+  <h4>Conceptos básicos</h4>
+  <ul>
+    <li><code>sampleRate</code>: Número de muestras por segundo, p.ej. 48000 Hz.</li>
+    <li><code>delaySamples</code>: Número de muestras que retrasa la señal en cada momento.</li>
+    <li><code>lfo = sin(lfoPhase)</code>: Oscilador de baja frecuencia que varía entre -1 y 1.</li>
+    <li><code>readPos</code>: Índice de lectura en el buffer, desplazado por <code>delaySamples</code>.</li>
+    <li><code>interpolación</code>: Mezcla lineal entre dos muestras adyacentes para suavizar el retraso.</li>
+  </ul>
+
+  <h4>¿Cómo funciona paso a paso?</h4>
+  <ol>
+    <li>
+      <strong>Escritura en buffer:</strong><br>
+      Almacena la muestra actual <code>x</code> en la posición <code>writeIndex</code> del buffer.
+      <em>Explicación:</em> Esto permite conservar un historial de audio para luego leerlo con retraso.</li>
+    <li>
+      <strong>Generación de LFO:</strong><br>
+      <code>lfo = Math.sin(lfoPhase)</code> oscila entre -1 y 1.
+      <em>Explicación:</em> El LFO produce una señal cíclica que modularemos para variar el delay.</li>
+    <li>
+      <strong>Cálculo de delay en muestras:</strong><br>
+      <code>delaySamples = depth/1000 * sampleRate * (0.5 + 0.5 * lfo)</code>.
+      <em>Explicación:</em> Convierte la profundidad (ms) a muestras y la ajusta con el valor del LFO,
+      generando un retard variable entre 0 y <code>depth</code>.</li>
+    <li>
+      <strong>Cálculo de posición de lectura:</strong><br>
+      <code>readPos = writeIndex - delaySamples</code> (envuelto si es negativo).
+      <em>Explicación:</em> Determina desde qué punto del buffer leer la muestra retardada.</li>
+    <li>
+      <strong>Interpolación lineal:</strong><br>
+      Se mezclan <code>buffer[i0]</code> y <code>buffer[i1]</code> según la fracción de muestra.
+      <em>Explicación:</em> Suaviza el eco cuando <code>delaySamples</code> no es entero evitando artefactos.</li>
+    <li>
+      <strong>Mezcla dry/wet:</strong><br>
+      <code>output = x * (1 - mix) + delayed * mix</code>.
+      <em>Explicación:</em> Combina la señal original (<em>dry</em>) con la retardada (<em>wet</em>),
+      ajustando la intensidad del efecto.</li>
+    <li>
+      <strong>Avance de índices:</strong><br>
+      <code>writeIndex = (writeIndex + 1) % buffer.length;</code><br>
+      <code>lfoPhase += 2 * Math.PI * rate / sampleRate;</code><br>
+      <em>Explicación:</em> Incrementa la posición de escritura y la fase del LFO para el próximo ciclo,
+      manteniendo el buffer circular y la oscilación continua.</li>
+  </ol>
+
+  <h4>Variaciones y consejos</h4>
+  <ul>
+    <li><em>Barrido sutil:</em> depth bajo y rate lento, útil para texturas suaves.</li>
+    <li><em>Barrido agresivo:</em> depth alto y rate rápido, ideal para efectos dramáticos.</li>
+    <li><em>Mix parcial:</em> combina señal original y retardada para no perder claridad.</li>
+  </ul>
+ </div>
+
+ <div id="distortionInfo" data-title="Efecto Distorsión">
+  <h4>¿Qué hace este filtro?</h4>
+  <p>
+    La distorsión altera la forma de onda original al recortar suavemente (o de forma más agresiva)
+    las crestas de la señal, introduciendo armónicos que enriquecen y colorean el sonido.
+  </p>
+
+  <h4>Objetivo</h4>
+  <p>
+    Añadir carácter y potencia al audio, desde una saturación cálida y vintage hasta una distorsión
+    intensa y agresiva, según la configuración de los parámetros.
+  </p>
+  
+  <div style="border: 2px solid #888; padding: 10px; border-radius: 4px; margin: 1em 0;">
+   <h4>Controles en la interfaz</h4>
+    <ul>
+      <li><strong>Amount [0–20]:</strong> Ajusta la ganancia antes de saturar. 
+        <em>Valores bajos (0–5) para calidez sutil; medios (5–10) para crunch; altos (10–20) para distorsión intensa.</em></li>
+      <li><strong>Mix [0–100%]:</strong> Controla la proporción de señal distorsionada.
+        <em>Bajando el mix reservas más carácter de la señal original; elevándolo obtienes más agresividad.</em></li>
+    </ul>
+  </div>
+
+  <h4>Componentes clave y su propósito</h4>
+  <ul>
+    <li><strong>amount</strong> (Intensidad): Controla la ganancia previa a la etapa de saturación.
+      <em>Valores bajos = saturación suave; valores altos = recorte más pronunciado.</em></li>
+    <li><strong>mix</strong> (Mezcla dry/wet): Proporción entre señal limpia (<em>dry</em>) y señal procesada (<em>wet</em>).
+      <em>0% = señal limpia; 100% = señal completamente distorsionada.</em></li>
+  </ul>
+
+  <h4>Conceptos básicos</h4>
+  <ul>
+    <li><code>x</code>: muestra de audio original.</li>
+    <li><code>processed</code>: muestra tras aplicar ganancia y saturación.</li>
+    <li><code>tanh()</code>: función hiperbólica que realiza un recorte suave, evitando picos bruscos.</li>
+    <li><code>dry/wet</code>: mezcla de la señal original y la señal procesada.</li>
+  </ul>
+
+  <h4>¿Cómo funciona paso a paso?</h4>
+  <ol>
+    <li>
+      <strong>Ajuste de ganancia:</strong><br>
+      <code>boosted = x * amount;</code><br>
+      <em>Explicación:</em> Aumenta la amplitud de la señal antes de saturarla, controlando la intensidad.</li>
+    <li>
+      <strong>Saturación con <code>tanh</code>:</strong><br>
+      <code>processed = Math.tanh(boosted);</code><br>
+      <em>Explicación:</em> La función <code>tanh</code> recorta la onda de manera suave,
+      generando nuevos armónicos sin introducir distorsión digital dura.</li>
+    <li>
+      <strong>Mezcla dry/wet:</strong><br>
+      <code>output = x * (1 - mix) + processed * mix;</code><br>
+      <em>Explicación:</em> Combina la señal limpia y la distorsionada según el porcentaje de mezcla elegido.</li>
+  </ol>
+
+
+  <h4>Variaciones y consejos</h4>
+  <ul>
+    <li><em>Saturación ligera:</em> amount bajo y mix moderado para calidez y presencia sin perder dinámica.</li>
+    <li><em>Distorsión agresiva:</em> amount alto y mix elevado para tonos potentes y rasgados.</li>
+    <li><em>Combinación:</em> usar lowpass o highpass antes para limpiar frecuencias extremas y evitar ruido.</li>
+  </ul>
+</div>
+</div>
+
+
+  <!-- MP3 Player -->
+  <div class="mp3-container">
+    <div class="music-player-menu">
+
+      <audio controls id="song">
+        <source src="" type="audio/mpeg">
+      </audio>
+
+      <div class="controls-menu">
+        <div><i class="fa-solid fa-repeat" id="loop"></i></div>
+        <div><i id="prevIcon" class="fa-solid fa-backward"></i></div>
+        <div onclick="playPause()"><i class="fa-solid fa-play" id="playIcon"></i></div>
+        <div><i id="nextIcon" class="fa-solid fa-forward"></i></div>
+        <div><i class="fa-solid fa-shuffle" id="shuffle"></i></div>
+      </div>
+
+      <div class="song-bar">
+        <img src="./media/default.png" alt="portada" class="song-img-menu">
+
+        <div class="progress-bar-menu">
+          <div class="song-info">
+            <span id="songTitle">--</span>
+            <span id="songArtist">-</span>
+          </div>
+          <div class="progress-bar-info">
+            <p id="currentTime">0:00</p>
+            <input type="range" id="progress" value="0">
+            <p id="duration">0:00</p>
+          </div>
+        </div>
+      </div>
+
+      <nav>
+        <div>
+          <i class="fa-solid fa-volume-high"></i>
+          <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1">
+          <span id="volLabel">100%</span>
+        </div>
+      </nav>
+    </div>
+  </div>
+
+  <footer>
+    <div id="footer-logo">
+      <img src="./media/logo-auralis-blanco.png" alt="Logo" style="height: 80px;">
+    </div>
+    <div id="footer-text" contenteditable="true" style="color:white;">
+      © 2025 AURALIS • Meriem, Natasha, Alina, Mica y Álvaro
+    </div>
+  </footer>
+
+  <script src="./js/mp3.js"></script>
+  <script src="./js/popup.js"></script>
+</body>
+
+</html>

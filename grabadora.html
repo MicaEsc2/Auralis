@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Grabadora</title>
+  <link rel="icon" type="image/x-icon" href="./media/logo-auralis-blanco.png">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-purple-500 to-purple-300 text-white flex items-center justify-center min-h-screen">
+<header class="fixed top-0 left-0 w-full bg-black h-20 flex items-center justify-between px-6 z-50 shadow-md">
+  <a href="index.html">
+    <div class="flex items-center cursor-pointer">
+      <img src="./media/logo-auralis-blanco.png" alt="Logo Auralis" class="h-12 mr-4">
+      <h1 class="text-white font-bold text-2xl m-0" style="font-family: 'Montserrat', sans-serif;">
+        Auralis
+      </h1>
+    </div>
+  </a>
+
+  <nav class="flex space-x-4">
+    <button onclick="location.href='Biblio.html'" style="font-family: 'Poppins', sans-serif;" class="px-3 py-1 rounded bg-gray-800 text-white hover:bg-gray-700 transition-colors duration-200">Biblioteca & Filtros</button>
+    <button onclick="location.href='grabadora.html'" style="font-family: 'Poppins', sans-serif;" class="px-3 py-1 rounded bg-gray-800 text-white hover:bg-gray-700 transition-colors duration-200">Grabadora</button>
+  </nav>
+</header>
+
+
+
+  <div class="mt-16 flex flex flex-col items-center space-y-6">
+
+    <img src="./img/grabadora.png"
+         alt="Icono Grabadora"
+         class="w-64 h-auto">
+
+    <h1 class="text-6xl font-bold drop-shadow">Grabadora</h1>
+    
+    <div id="countdown" class="text-4xl font-bold text-yellow-300 hidden"></div>
+
+
+    <div id="recordingIcon" class="hidden text-red-500 animate-pulse text-3xl">🔴 Grabando...</div>
+
+    <div class="flex space-x-4">
+
+      <button onclick="startCountdown()"
+              class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow-md flex items-center space-x-2">
+        <span>🎤</span><span>Grabar</span>
+      </button>
+
+      <button onclick="stopRecording()" id="btnStop"
+              class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded shadow-md flex items-center space-x-2">
+        <span>⏹️</span><span>Detener</span>
+      </button>
+   
+      <button id="btnListo" class="hidden bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded shadow-md flex items-center space-x-2">
+        <span>✅</span><span>Listo</span>
+      </button>
+    </div>
+
+
+    <audio id="audio" controls class="w-80 mt-4 hidden rounded shadow-lg"></audio>
+
+
+    <footer class="text-white text-sm mt-6 opacity-80">
+      © 2025 AURALIS • Meriem, Natasha, Alina, Mica y Álvaro
+    </footer>
+  </div>
+
+  <script>
+    let mediaRecorder;
+    let audioChunks = [];
+
+    function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    async function startCountdown() {
+      const countdown = document.getElementById("countdown");
+      countdown.innerText = "3";
+      countdown.classList.remove("hidden");
+
+      await sleep(1000);
+      countdown.innerText = "2";
+      await sleep(1000);
+      countdown.innerText = "1";
+      await sleep(1000);
+      countdown.classList.add("hidden");
+
+      startRecording();
+    }
+
+    async function startRecording() {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mediaRecorder = new MediaRecorder(stream);
+      audioChunks = [];
+
+      mediaRecorder.ondataavailable = event => {
+        audioChunks.push(event.data);
+      };
+
+      mediaRecorder.onstop = () => {
+ 
+        const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+        const audioUrl = URL.createObjectURL(audioBlob);
+        const audio = document.getElementById("audio");
+        audio.src = audioUrl;
+        audio.classList.remove("hidden");
+
+        
+        document.getElementById("btnListo").classList.remove("hidden");
+      };
+
+      mediaRecorder.start();
+      document.getElementById("recordingIcon").classList.remove("hidden");
+   
+      document.getElementById("btnListo").classList.add("hidden");
+    }
+
+    function stopRecording() {
+      if (mediaRecorder && mediaRecorder.state === 'recording') {
+        mediaRecorder.stop();
+      }
+      document.getElementById("recordingIcon").classList.add("hidden");
+    }
+
+    document.getElementById("btnListo").addEventListener("click", () => {
+      const blob = new Blob(audioChunks, { type: 'audio/wav' });
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement('a');
+      a.style.display = 'none';
+      a.href = url;
+      
+      a.download = 'grabacion.mp3';
+      document.body.appendChild(a);
+      a.click();
+      URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    });
+  </script>
+</body>
+</html>

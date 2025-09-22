@@ -21,4 +21,6 @@ Una solución ligera y práctica para creadores o amantes de la música que quie
 - Web Audio API
 - Grabación con MediaRecorder
 
+### 🌐 Ver online
+[Prueba Auralis en tu navegador](https://micaesc2.github.io/Auralis/)
   

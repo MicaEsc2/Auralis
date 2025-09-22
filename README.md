@@ -1,4 +1,4 @@
-🎵 Auralis: Reproductor web de música con filtros y frabaciónAdd commentMore actions
+#🎵 Auralis: Reproductor web de música con filtros y frabaciónAdd commentMore actions
 
 > ⚠️ En caso de que no te funcione el enlace a la pagina, descargate los la carpeta Auralis directamente. 
 

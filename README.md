@@ -1,6 +1,6 @@
 ## 🎵 Auralis: Reproductor web de música con filtros de audio y grabación de voz.
 
-> ⚠️ En caso de que no te funcione el enlace a la pagina, descargate los la carpeta Auralis directamente. 
+> ⚠️ En caso de que no te funcione el enlace a la pagina, descargate la carpeta Auralis directamente. 
 
 Este proyecto es una página web interactiva donde puedes reproducir música desde tu navegador con una experiencia personalizada. Ofrece las siguientes funcionalidades:
 
